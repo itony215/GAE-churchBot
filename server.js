@@ -8,6 +8,7 @@ const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
 const mongoose = require('mongoose');
+mongoose.connect('mongodb://admin:password@35.186.148.37:27017')
 const API_URL = `https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/46d04fde-70a3-4507-aec8-98869e189ea0?subscription-key=727cb238c1244bc4b2abf5a0a378553c&timezoneOffset=0&verbose=true&q=`
 
 var Record = mongoose.model('Record', {
@@ -39,21 +40,18 @@ line.init({
 app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
 
   const promises = req.body.events.map(event => {
-    mongoose.connect('mongodb://admin:password@35.185.176.117:27017')
     const Token = event.replyToken;
     if (event.type != 'message'){
       var log = new Follower();
       log.time = event.timestamp;
       log.userid = event.source.userId;
       log.save();
-      mongoose.connection.close();
     }else if (event.message.type === 'text') {
       var log = new Record();
       log.time = event.timestamp;
       log.userid = event.source.userId;
       log.text = event.message.text;
       log.save();
-      mongoose.connection.close();
       if (event.message.text === '週報') {
         giveweekly.push(Token);
       } 
