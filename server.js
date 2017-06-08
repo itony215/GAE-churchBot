@@ -8,6 +8,7 @@ const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
 //const mongoose = require('mongoose');
+//mongoose.connect('mongodb://admin:password@35.185.176.117:27017')
 const API_URL = `https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/46d04fde-70a3-4507-aec8-98869e189ea0?subscription-key=727cb238c1244bc4b2abf5a0a378553c&timezoneOffset=0&verbose=true&q=`
 
 /*var Record = mongoose.model('Record', {
@@ -27,7 +28,7 @@ app.use(bodyParser.json({
 }))
 app.get('/push', (req, res) => {
   res.status(200).send('提醒成功!');
-  //push.push();
+  push.push();
 });
 
 line.init({
@@ -39,36 +40,33 @@ line.init({
 app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
 
   const promises = req.body.events.map(event => {
-
+    const Token = event.replyToken;
     if (event.type != 'message'){
-     /* mongoose.connect('mongodb://admin:password@35.185.176.117:27017');
-      var log = new Follower();
+      /*var log = new Follower();
       log.time = event.timestamp;
       log.userid = event.source.userId;
-      log.save();
-      mongoose.connection.close();*/
+      log.save();*/
     }else if (event.message.type === 'text') {
-     /* mongoose.connect('mongodb://admin:password@35.185.176.117:27017');
+     /*
       var log = new Record();
       log.time = event.timestamp;
       log.userid = event.source.userId;
       log.text = event.message.text;
-      log.save();
-      mongoose.connection.close();*/
+      log.save();*/
 
       if (event.message.text === '週報') {
-        giveweekly.push(event);
+        giveweekly.push(Token);
       } 
       else if (event.message.text === '上週週報') {
-        giveweekly.pushlast(event);
+        giveweekly.pushlast(Token);
       }
-      else if (event.message.text === '服事') {
-       remind.timeSet(event);
+      else if (event.message.text === '同工') {
+        remind.timeSet(Token);
       }
       else if (event.message.text === '講道') {
         return line.client
           .replyMessage({
-            replyToken: event.replyToken,
+            replyToken: Token,
             messages: [
               {
                 type: 'text',
@@ -78,9 +76,7 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
           })
       }
       else {
-        
         const queryUrl = `${API_URL}${encodeURIComponent(event.message.text)}`;
-
         request({ uri: queryUrl, encoding: null, }, function (error, response, body) {
           if (response.statusCode === 200) {
             body = JSON.parse(body);
@@ -88,15 +84,14 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
             if (intent === 'None') {
               return line.client
                 .replyMessage({
-                  replyToken: event.replyToken,
+                  replyToken: Token,
                   messages: [
                     {
                       type: 'text',
-                      text: '你好, 我是施恩堂小幫手，還再學習怎麼跟人類對話，可以和我聊天。\n\n輸入『週報』本週週報\n輸入『上週週報』上週週報\n輸入『講道』講道影音\n輸入『服事』主日服事同工'
+                      text: '你好, 我是施恩堂小幫手，還再學習怎麼跟人類對話，可以和我聊天。\n\n輸入『週報』本週週報\n輸入『上週週報』上週週報\n輸入『講道』講道影音\n輸入『同工』主日服事同工'
                     }
                   ]
-                })
-            
+                })   
             } else {
               if (event.message.text) {
                 let isMatch = false;
@@ -111,7 +106,6 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
                     matchProp = '恩典';
                   }
                 })
-  
                 const randItems = {};
                 const randSet = data.DATA[matchProp];
                 const randKeys = Object.keys(randSet);
@@ -121,7 +115,7 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
                 randItems[title] = randSet[itemKey];
               return line.client
                 .replyMessage({
-                  replyToken: event.replyToken,
+                  replyToken: Token,
                   messages: [
                     {
                       "type": "template",
@@ -141,25 +135,22 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
                         ]
                       }
                     }
-      
                      ,{
                       type: 'text',
                       text: '喜樂的心乃是良藥，憂傷的靈使骨枯乾。(箴言17:22)'
                     }
                   ]
-                })
-                
+                })        
               }
             }
           } else {
-            console.log('oops');
             return line.client
               .replyMessage({
-                replyToken: event.replyToken,
+                replyToken: Token,
                 messages: [
                   {
                     type: 'text',
-                    text: '輸入『週報(傳送)』本週週報\n輸入『上週週報(傳送)』上週週報\n輸入『講道(傳送)』講道影音\n輸入『服事』主日服事同工'
+                    text: '輸入『週報(傳送)』本週週報\n輸入『上週週報(傳送)』上週週報\n輸入『講道(傳送)』講道影音\n輸入『同工』主日服事同工'
                   }
                 ]
               })
@@ -167,8 +158,19 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
           
         });
         
-      }
-         
+      }         
+    }
+    else if (event.message.type === 'sticker'){
+      return line.client
+        .replyMessage({
+          replyToken: Token,
+          messages: [
+            {
+              type: 'text',
+              text: '我都沒錢買貼圖QQ'
+            }
+          ]
+        })
     }
  else {
       console.log('other');
@@ -178,7 +180,6 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
     .all(promises)
     .then(() => res.json({success: true}))
 })
-
 app.listen(process.env.PORT || 3000, () => {
   console.log('Example app listening on port 3000!')
 })

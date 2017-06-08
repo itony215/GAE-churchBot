@@ -1,4 +1,4 @@
-module.exports.timeSet = function (event) {
+module.exports.timeSet = function (Token) {
   const line = require('./index')
 var dt = new Date();
 var dt2 = new Date();
@@ -26,7 +26,7 @@ request({
       }
     }
     return line.client.replyMessage({
-      replyToken: event.replyToken,
+      replyToken: Token,
       messages: [
         {
           type: 'text',

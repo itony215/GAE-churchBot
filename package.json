@@ -1,12 +1,12 @@
 {
-  "name": "gracebot",
+  "name": "churchbot",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
-  "author": "",
+  "author": "tony",
   "license": "ISC",
   "dependencies": {
     "@line/bot-sdk": "^1.1.0",
@@ -15,5 +15,14 @@
     "mongoose": "^4.10.5",
     "request": "^2.81.0",
     "request-promise": "^4.2.1"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itony215/GAE-churchBot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/itony215/GAE-churchBot/issues"
+  },
+  "homepage": "https://github.com/itony215/GAE-churchBot#readme"
 }

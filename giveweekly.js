@@ -1,4 +1,4 @@
-module.exports.push= function (event) {
+module.exports.push = function (Token) {
   const line = require('./index')
   var http = require("https");
   var options = {
@@ -24,7 +24,7 @@ module.exports.push= function (event) {
       var linkd = body.data.images[body.data.images.length - 2].link
       var linkd2 = body.data.images[body.data.images.length - 1].link
       return line.client.replyMessage({
-        replyToken: event.replyToken,
+        replyToken: Token,
         messages: [
           {
             type: "image",
@@ -42,7 +42,7 @@ module.exports.push= function (event) {
   });
   req.end();
 }
-module.exports.pushlast = function (event) {
+module.exports.pushlast = function (Token) {
   const line = require('./index')
   var http = require("https");
 
@@ -69,7 +69,7 @@ module.exports.pushlast = function (event) {
       var linkd = body.data.images[body.data.images.length - 4].link
       var linkd2 = body.data.images[body.data.images.length - 3].link
       return line.client.replyMessage({
-        replyToken: event.replyToken,
+        replyToken: Token,
         messages: [
           {
             type: "image",
