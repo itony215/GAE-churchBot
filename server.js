@@ -52,16 +52,16 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
       log.userid = event.source.userId;
       log.text = event.message.text;
       log.save();
-      if (event.message.text === '週報') {
+      if (event.message.text.trim() === '週報') {
         giveweekly.push(Token);
       } 
-      else if (event.message.text === '上週週報') {
+      else if (event.message.text.trim() === '上週週報') {
         giveweekly.pushlast(Token);
       }
-      else if (event.message.text === '同工') {
+      else if (event.message.text.trim() === '同工') {
         remind.timeSet(Token);
       }
-      else if (event.message.text === '講道') {
+      else if (event.message.text.trim() === '講道') {
         return line.client
           .replyMessage({
             replyToken: Token,
