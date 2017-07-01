@@ -2,6 +2,7 @@ const data = require('./data');
 const line = require('./index')
 const push = require('./push.js')
 const remind = require('./remind.js')
+const pray = require('./pray.js')
 const giveweekly = require('./giveweekly.js')
 const express = require('express')
 const bodyParser = require('body-parser')
