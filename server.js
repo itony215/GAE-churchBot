@@ -32,9 +32,9 @@ app.get('/push', (req, res) => {
 });
 
 line.init({
-  accessToken: 'c/XMmaPokDjHzMTNmPed0Mjtf3UZ8S/9+tTB08iIELrmaP5vydkuPLQVPMat1cfVV4H4dfFph4sc1S91OSOg8PWmSg1JbGIyXP7WJvZ1e2X3LJ0zCdKQsk4OS0QkCzlvVY3GqF8UOPa6hGJixR99KgdB04t89/1O/w1cDnyilFU=',
+  accessToken: 'Jlio0j0bXFgpxwk1lsE/UIjo9NJqxckWvEuKN+B7kevpC7agnmi0pjqepGGfWVTRS1uGt2mWIj08iE3ytAUv68cF0PfAnImDv0ijnyW4dER0zKPDg+NRsBXU6VMp6SRn39VCxnuqlgcKOu0OQJtUuQdB04t89/1O/w1cDnyilFU=',
 
-  channelSecret: '22fc220ce651793e6b4a546b028a230a'
+  channelSecret: '62353e7c665e9bc90188b63aad013d6a'
 })
 
 app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
@@ -60,6 +60,9 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
       }
       else if (event.message.text.trim() === '同工') {
         remind.timeSet(Token);
+      }
+      else if (event.message.text.trim() === '代禱') {
+        pray.push(Token);
       }
       else if (event.message.text.trim() === '講道') {
         return line.client
