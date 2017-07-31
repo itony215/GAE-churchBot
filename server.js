@@ -9,7 +9,7 @@ const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://admin:password@35.186.148.37:27017')
+mongoose.connect('mongodb://admin:password@ds129183.mlab.com:29183/follower')
 const API_URL = `https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/46d04fde-70a3-4507-aec8-98869e189ea0?subscription-key=727cb238c1244bc4b2abf5a0a378553c&timezoneOffset=0&verbose=true&q=`
 
 var Record = mongoose.model('Record', {
@@ -90,7 +90,7 @@ app.post('/webhook/', line.validator.validateSignature(), (req, res, next) => {
                   messages: [
                     {
                       type: 'text',
-                      text: '你好, 我是施恩堂小幫手，還再學習怎麼跟人類對話，可以和我聊天。\n\n輸入『週報』本週週報\n輸入『上週週報』上週週報\n輸入『講道』講道影音\n輸入『同工』主日服事同工'
+                      text: '你好, 我是施恩堂小幫手，還在學習怎麼跟人類對話，可以和我聊天。\n\n輸入『週報』本週週報\n輸入『上週週報』上週週報\n輸入『講道』講道影音\n輸入『同工』主日服事同工'
                     }
                   ]
                 })   

@@ -20,7 +20,8 @@ request({
       }else{
         let value = body.feed.entry[i].gsx$_cn6ca.$t;
         dt2 = Date.parse(value);
-        if (dt2 - dt > -86400000 && dt2 - dt < 86400000 * 6) {
+        if (dt2 - dt > -43200000 && dt2 - dt < 561600000) {
+          //561600000 is 86400000 * 6 +43200000
           break;
         }
       }
