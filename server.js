@@ -70,7 +70,7 @@ app.post("/webhook/", line.validator.validateSignature(), (req, res, next) => {
             {
               type: "text",
               text:
-                "講道信息放在雲端硬碟\nhttps://drive.google.com/open?id=0B1ZfNOPlu1qsanFuZWRJZ0dNSlU"
+                "講道信息放在雲端硬碟\nhttps://drive.google.com/open?id=0B0BbwZ428xx5TGJLZmx3dEViQk0"
             }
           ]
         });
